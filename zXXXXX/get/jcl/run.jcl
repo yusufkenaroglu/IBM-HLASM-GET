@@ -1,0 +1,14 @@
+//GETEXEC JOB (CCCCCCCC),'YKENAR',
+//             MSGLEVEL=(1,1),
+//             MSGCLASS=O,
+//             CLASS=A,
+//             NOTIFY=&SYSUID
+//*
+//STEP1  EXEC PGM=GETPGM
+//STEPLIB DD  DSN=&SYSUID..LOAD,DISP=SHR
+//*
+//SYSIN  DD  *
+16
+/*
+//SYSOUT  DD  SYSOUT=*
+//SYSUDUMP DD  SYSOUT=*
