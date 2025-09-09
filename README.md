@@ -165,3 +165,19 @@ MSG      DC    C'LOOP: '              loop message prefix
 - Program expects FB/80 input format
 - Output is formatted with RECFM=FBA, LRECL=133
 - All JCL uses symbolic parameters (&SYSUID) for dataset names
+
+
+## Sample Output (SYSOUT)
+
+When executed, the program will display messages like:
+```
+16
+LOOP: 16
+LOOP: 15
+LOOP: 14
+.
+.
+.
+LOOP:  1
+```
+
