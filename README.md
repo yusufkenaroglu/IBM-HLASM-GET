@@ -156,7 +156,6 @@ MSG      DC    C'LOOP: '              loop message prefix
 ## Prerequisites
 
 - IBM z/OS environment
-- HLASM compiler
 - Access to system macro libraries (SYS1.MACLIB)
 - Authority to create datasets and submit jobs
 
