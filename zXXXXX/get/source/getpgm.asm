@@ -32,31 +32,31 @@ SETUP    STM   RETREG,BASEREG,12(SAVEREG)  save caller's registers
          L     6,=C'Begin'
          LA    6,=C'Begin'
 LOOPINIT DS    0H                      halfword boundary alignment
-         OPEN  (SYSIN,(INPUT))
-         OPEN  (SYSOUT,(OUTPUT))
-         GET   SYSIN,INREC             Read the rec
-         PUT   SYSOUT,INREC            Write that bad boy out
-         PACK  PACKED,INREC(2)
-         CP    PACKED,=P'0'
-         BNH   TOOLOW
-         CP    PACKED,=P'50'
+         OPEN  (SYSIN,(INPUT))                                           
+         OPEN  (SYSOUT,(OUTPUT)) 
+         GET   SYSIN,INREC             Read the rec (line from SYSIN)        
+         PUT   SYSOUT,INREC            Write it to SYSOUT
+         PACK  PACKED,INREC(2)         Get the 2-digit decimal input
+         CP    PACKED,=P'0'            Guard the input - positive  
+         BNH   TOOLOW                  
+         CP    PACKED,=P'50'           No need to loop > 50 times...
          BH    TOOHIGH
 
 LOOP     DS    0H                      halfword boundary alignment
          MVC   ZONED(L'EDITMSK),EDITMSK
-         ED    ZONED,PACKED       * Edit packed into zoned decimal
-         OI    ZONED+7,X'F0'      * Make sure nibble is EBCDIC compat.
-         MVC   LINE(L'ZONED),ZONED     move LOOPCNT into LINE
-         MVC   LINE(L'MSG),MSG         move message into LINE buffer
-         PUT   SYSOUT,LINE             write line to SYSOUT
-         SP    PACKED,=P'1'
-         CP    PACKED,=P'0'
+         ED    ZONED,PACKED            Edit packed into zoned decimal
+         OI    ZONED+7,X'F0'           Ensure EBCDIC compatibility
+         MVC   LINE(L'ZONED),ZONED     move LOOPCNT into LINE  
+         MVC   LINE(L'MSG),MSG         move message into LINE
+         PUT   SYSOUT,LINE             Write line to SYSOUT
+         SP    PACKED,=P'1'            Decrement LOOPCNT
+         CP    PACKED,=P'0'            Loop if LOOPCNT != 0
          BH    LOOP
-         J STOP1                       skip DOMSG subroutine when done
+         J STOP1                       
 
 FINISH   DS   0H                       Invoked at End of Data of SYSIN
-         CLOSE SYSIN
-         CLOSE SYSOUT
+         CLOSE SYSIN                                                     
+         CLOSE SYSOUT  
 STOP1    LH    7,HALFCON
 STOP2    A     7,FULLCON
 STOP3    ST    7,HEXCON
@@ -85,18 +85,18 @@ EXIT     DS    0H                      halfword boundary alignment
 *--------------------------------------------------------------------*
 *        storage and constant definitions.                           *
 *        print output definition.                                    *
-*--------------------------------------------------------------------*
+*--------------------------------------------------------------------*  
 SAVEAREA DC    18F'-1'                 register save area
 FULLCON  DC    F'-1'
 HEXCON   DC    XL4'9ABC'
 HALFCON  DC    H'32'
-         DS    0H            * ENSURE HALF-WORD ALIGNMENT
-*
+         DS    0H                      ENSURE HALF-WORD ALIGNMENT
+*                                                                       
 SYSIN    DCB   DSORG=PS,MACRF=(GM),DDNAME=SYSIN,EODAD=FINISH,          *
-               RECFM=FB,LRECL=80,BLKSIZE=0
+               RECFM=FB,LRECL=80,BLKSIZE=0                              
 SYSOUT   DCB   DSORG=PS,MACRF=(PM),DDNAME=SYSOUT,                      *
-               RECFM=FBA,LRECL=133,BLKSIZE=0
-*
+               RECFM=FBA,LRECL=133,BLKSIZE=0                            
+*                                                                       
 INREC    DC    CL133' '
 PACKED   DS    PL4                * loop count as packed decimal
 ZONED    DS    CL8                * zoned for printable digits
