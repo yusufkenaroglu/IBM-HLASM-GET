@@ -1,7 +1,7 @@
 # IBM HLASM GET - I/O Operations with IBM High Level Assembler
 
 [![License](https://img.shields.io/github/license/yusufkenaroglu/IBM-HLASM-GET)](LICENSE)
-[![Language](https://img.shields.io/badge/language-IBM%20HLASM-blue)](https://www.ibm.com/products/high-level-assembler-and-toolkit-feature)
+[![Language](https://img.shields.io/badge/language-IBM%20HLASM%20%7C%20JCL-blue)](https://www.ibm.com/products/high-level-assembler-and-toolkit-feature)
 
 ## Overview
 
